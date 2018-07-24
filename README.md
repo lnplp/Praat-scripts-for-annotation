@@ -15,6 +15,8 @@ Open each script to see basic instructions for use, and attribution. These scrip
 
 **place_boundary.script** goes through a given directory, placing boundaries relative to existing ones on each textgrid. It doesn't create new tiers.
 
+**rename_interval.script** goes through a directory renaming textgrid intervals with a specified original label to a specified replacement label.
+
 **save_intervals.script** takes an annotated long sound object and saves labelled intervals to separate sound files. Handy as a second or third step in segmenting a production task recording into component files.
  
 **textgrid_create.script** goes through a given directory, bringing up each soundfile and for each creating a matching textgrid, automatically saving any changes you make to the textgrid. 
