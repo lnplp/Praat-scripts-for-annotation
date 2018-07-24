@@ -1,0 +1,28 @@
+##############################################################################
+## This script goes through a directory renaming textgrid intervals 
+## with a specified original label to a specified replacement label. 
+## 
+## Written by Christian DiCanio, October 2011.
+## Adapted and first used by Leendert Plug February 2018.
+##############################################################################
+
+form Extract Time Indices from Textgrids
+   sentence Directory_name: /
+   sentence Original_label ICI
+   sentence Replacement_label ici
+   positive Labeled_tier_number 4
+endform
+
+Create Strings as file list... list 'directory_name$'/*.TextGrid
+num = Get number of strings
+
+for ifile to num
+	select Strings list
+	fileName$ = Get string... ifile
+	Read from file... 'directory_name$'/'fileName$'
+	Replace interval text... 'labeled_tier_number' 0 0 'original_label$' 'replacement_label$' Literals
+	Save as text file... 'directory_name$'/'fileName$'
+endfor
+select all
+Remove
+print Done.
