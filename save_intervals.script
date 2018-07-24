@@ -1,0 +1,78 @@
+#########################################################################################################
+### 
+### This script opens a soundfile and reads in its associated TextGrid file.
+### It extracts the portion of the sound file corresponding to all non-empty intervals on a specified tier,
+### with an optional buffer on each end. It saves each extracted portion to a .wav file with the same 
+### name as the label, in a directory of choice.
+### 
+### Original by Pauline Welby, adapted by Leendert Plug January 2018
+###
+#########################################################################################################
+
+form Input directory name with final slash
+    comment Enter parent directory where sound file is kept:
+    sentence soundDir \
+	comment Enter basename of soundfile (without .wav extension)
+    sentence baseFile 
+    comment Enter directory to which created sound files should be saved:
+    sentence outDir \
+    comment Specify tier name:
+    sentence tierName words
+    comment Specify length of left and right buffer (in seconds):
+    positive margin 0.0001
+    
+endform
+
+numberOfFiles = 1
+for ifile to numberOfFiles
+  # Read in the Sound and TextGrid files
+
+  Read from file... 'soundDir$'\'baseFile$'.TextGrid
+  Read from file... 'soundDir$'\'baseFile$'.wav
+
+  # Go through tiers and extract info
+
+  select TextGrid 'baseFile$'
+
+  nTiers = Get number of tiers
+    for i from 1 to 'nTiers'
+      tname$ = Get tier name... 'i'
+
+        if tname$ = "'tierName$'"
+
+        # Find non-empty intervals
+	
+        nInterv = Get number of intervals... 'i'
+        for j from 1 to 'nInterv'
+        lab$ = Get label of interval... 'i' 'j'
+          if lab$ != ""
+
+           # Get time values for start and end of the interval
+
+           begwd = Get starting point... 'i' 'j'			      
+           endwd = Get end point... 'i' 'j'
+
+           # Add buffers, if specified
+
+           begfile = 'begwd'-'margin'
+           endfile = 'endwd'+'margin' 
+
+           # Create and save small .wav file
+
+           select Sound 'baseFile$'
+           Extract part... 'begfile' 'endfile' rectangular 1 yes
+           Write to WAV file... 'outDir$'\'lab$'.wav
+
+           ## Re-select TextGrid
+          select TextGrid 'baseFile$'
+
+         endif
+	
+    endfor
+
+endfor
+
+# Complete object cleanup
+select all
+Remove
+print Done

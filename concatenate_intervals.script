@@ -1,0 +1,44 @@
+#####################################################################################
+## This script loops through a directory, for each soundfile and textgrid extracting   
+## all labelled intervals and then sticking them back together again. It should keep  
+## interval boundaries in the same place. Output files are saved in a subdirectory
+## which the user can name.
+##
+## Leendert Plug, October 2016
+#####################################################################################
+
+
+form Files
+	comment Specify the input directory
+	sentence InputDir C:\Users\lnplp\Desktop\test\
+	comment Choose a name for the output directory
+	sentence OutputDir output
+endform
+
+createDirectory (outputDir$)
+
+Create Strings as file list... list 'inputDir$'*.wav
+numberOfFiles= Get number of strings
+
+for i to numberOfFiles
+    select Strings list
+    current_file$ = Get string... 'i'
+    Read from file... 'inputDir$''current_file$'
+    object_name$ = selected$ ("Sound")
+    Read from file... 'inputDir$''object_name$'.TextGrid
+    plus Sound 'object_name$'
+    Extract non-empty intervals... 1 yes
+    Concatenate recoverably
+    select Sound chain
+    Write to WAV file... 'outputDir$'\'current_file$'
+    minus Sound chain
+    select TextGrid chain
+    Write to text file... 'outputDir$'\'object_name$'.TextGrid
+    select all
+    minus Strings list
+    Remove
+endfor
+
+select Strings list
+Remove
+print Done.
