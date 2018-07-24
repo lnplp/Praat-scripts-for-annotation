@@ -1,2 +1,2 @@
 # Praat-scripts-for-annotation
-These scripts facilitate working with Textgrids in Praat, for example by creating them for all files in a directory, or manipulating tiers or boundaries
+Open each script to see basic instructions for use, and attribution. These scripts come with no guarantee of functionality.
