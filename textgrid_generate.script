@@ -1,0 +1,48 @@
+#####################################################################################################
+##
+## This script goes through a directory and for each sound file
+## creates a textgrid with one numbered tier.
+##
+## The script generates a form on which you can enter the directory and sound file extension. 
+## No other settings need editing before running, unless you want to create multiple tiers, 
+## and/or enter tier names of choice. See the commented section below.
+##
+## If textgrids already exist, these are overwritten! Use textgrid_edit.script instead.
+##
+## Adapted from one of Mietta Lennes' scripts by Leendert Plug; last edit March 2016.
+##
+######################################################################################################
+
+
+form Directory and sound file extension
+   comment Specify the directory the script should run on by replacing '...' by the full path. Keep the final slash. 
+   sentence Directory ...\
+   comment Edit the file extension if your sound files are not .wav.
+sentence Extension .wav
+endform
+
+Create Strings as file list... list 'directory$'*'extension$'
+number_of_files = Get number of strings
+for x from 1 to number_of_files
+     select Strings list
+     current_file$ = Get string... x
+     Read from file... 'directory$''current_file$'
+     object_name$ = selected$ ("Sound")
+     To TextGrid... 1 
+	 
+## To TextGrid... "Leigh Farron Lamont Leslie Somerset"	 
+
+###########################################################################################################	 
+## The second, deactivated 'To Textgrid' line would create a textgrid
+## with 5 named tiers. The prior, activated line creates a single tier.
+###########################################################################################################  
+
+     Write to text file... 'directory$''object_name$'.TextGrid
+     select all
+     minus Strings list
+     Remove
+endfor
+
+select Strings list
+Remove
+print Done.

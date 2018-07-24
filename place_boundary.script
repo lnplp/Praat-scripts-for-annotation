@@ -1,0 +1,92 @@
+
+########################################################################################################
+##  This script adds boundaries on a tier relative to already existing boundaries. 
+##  As written, it adds boundaries on tier 2 at 25% and 75% of the interval labelled "V" 
+##  on tier 1.
+##  
+##  To run the script, sound files and textgrids must be in the same directory.  
+##
+##  Leendert Plug, February 2004
+########################################################################################################
+
+## Specify the directory containing your sound files and their extension in the next lines:
+
+directory$ = "...\"
+extension$ = ".wav"
+
+## The next bit bit makes a list of all the sound files in the directory we're using, and puts the number of
+## filenames into the variable "number_of_files". It then creates a "for" loop that will 
+## iterate once for every file in the list.
+
+Create Strings as file list...  list 'directory$'*.'extension$'
+number_files = Get number of strings
+
+for j from 1 to number_files
+
+## The next bit queries the file-list to get the first filename from it, then reads that file in.
+## It then creates a variable called "object_name$" that will be equal to the filename
+## minus the extension. It then gets the corresponding TextGrid and reads it in.
+
+     select Strings list
+     current_token$ = Get string... 'j'
+     Read from file... 'directory$''current_token$'
+
+     object_name$ = selected$ ("Sound")
+     select Sound 'object_name$'
+
+     Read from file... 'directory$''object_name$'.TextGrid
+
+## The next bit queries the TextGrid to find out how many intervals there are on a specified tier (here 2), 
+## storing that number in a variable called "number_of_intervals". This is used to set up a "for" loop
+## that will go through each of the intervals and measure it. 
+
+
+     select TextGrid 'object_name$'
+     number_of_intervals = Get number of intervals... 1
+     for b from 1 to number_of_intervals
+          select TextGrid 'object_name$'
+          interval_label$ = Get label of interval... 1 'b'
+ 
+           if interval_label$ = "V"
+ 
+## The next bit does the calculations of the points at which you want to insert a boundary
+## (here: 25% and 75% of the vowel interval). 
+
+               begin_vowel = Get starting point... 1 'b'
+               end_vowel = Get end point... 1 'b'
+               quartpoint = begin_vowel + ((end_vowel - begin_vowel) / 4)
+               midpoint = begin_vowel + ((end_vowel - begin_vowel) / 2)
+               threequartpoint = begin_vowel + (3 * ((end_vowel - begin_vowel) / 4))
+
+## The next bit puts the boundaries in at selected points calculated in the previous bit.
+
+##             Insert boundary... 2 'begin_vowel'
+               Insert boundary... 2 'quartpoint'
+##             Insert boundary... 2 'midpoint'
+               Insert boundary... 2 'threequartpoint'
+##             Insert boundary... 2 'end_vowel'
+
+## The next bit saves the textgrid and ends the second "for" loop.
+
+select TextGrid 'object_name$'
+Write to text file... 'directory$''object_name$'.TextGrid
+
+         endif
+     endfor
+
+## The next bit makes sure the analysis is repeated for each file in the list, removes objects 
+## after each analysis, and finally ends the first "for" loop. 
+
+     select all
+     minus Strings list
+     Remove
+endfor
+
+## And at the end, a little bit of clean up and a message to let you know that it's all done.
+
+select all
+Remove
+clearinfo
+print All done.
+
+## end of script

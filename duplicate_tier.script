@@ -1,0 +1,46 @@
+##########################################################################################################
+##
+##  This script loops through all the sound files and their associated 
+##  textgrids in a given directory, and duplicates an existing interval tier. It's probably unnecessarily 
+##  complex in that looping through the sound files is redundant -- but it does the job. 
+##
+##  Things to specify before running: the directory path (keep final slash) and sound file extension  
+##  at the start of the script, and the tiers involved in the commented bit below.
+##
+##  Leendert Plug, February 2009
+##
+##########################################################################################################
+
+directory$ = "...\"
+extension$ = ".wav"
+
+Create Strings as file list... list 'directory$'*'extension$'
+number_of_files = Get number of strings
+for x from 1 to number_of_files
+     select Strings list
+     current_file$ = Get string... x
+     Read from file... 'directory$''current_file$'
+     object_name$ = selected$ ("Sound")
+     Read from file... 'directory$''object_name$'.TextGrid
+     plus Sound 'object_name$'
+     select all 
+     grid$ = selected$ ("TextGrid")
+     select TextGrid 'grid$'
+	 
+########################################################################################################	 
+##  The next bit adds the tier. The first number identifies 
+##  the tier to duplicate, the second the position of the duplicate.
+#########################################################################################################
+
+     Duplicate tier... 1 2
+
+     minus Sound 'object_name$'
+     Write to text file... 'directory$''object_name$'.TextGrid
+     select all
+     minus Strings list
+     Remove
+endfor
+
+select Strings list
+Remove
+print Done.
