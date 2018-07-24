@@ -1,4 +1,4 @@
-# Praat-scripts-for-annotation
+# Praat-scripts-for-segmenting
 Open each script to see basic instructions for use, and attribution. These scripts come with no guarantee of functionality.
 
 **add_tier.script** goes through a given directory, adding an interval tier to each textgrid.
