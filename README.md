@@ -11,6 +11,8 @@ Open each script to see basic instructions for use, and attribution. These scrip
 
 **duplicate_tier.script** goes through a given directory, duplicating a given interval tier. 
 
+**merge_intervals.script** combines two adjacent intervals in a textgrid into one with a new label.
+
 **place_boundary.script** goes through a given directory, placing boundaries relative to existing ones on each textgrid. It doesn't create new tiers.
 
 **save_intervals.script** takes an annotated long sound object and saves labelled intervals to separate sound files. Handy as a second or third step in segmenting a production task recording into component files.
