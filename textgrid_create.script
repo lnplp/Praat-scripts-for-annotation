@@ -12,12 +12,13 @@
 ##
 ######################################################################################################
 
-
 form Directory and sound file extension
    comment Specify the directory the script should run on by replacing '...' by the full path. Keep the final slash. 
    sentence Directory ...\
    comment Edit the file extension if your sound files are not .wav.
-sentence Extension .wav
+   sentence Extension .wav
+   comment Specify the name of the tier you want to insert
+   sentence Tiername segments
 endform
 
 Create Strings as file list... list 'directory$'*'extension$'
@@ -29,7 +30,7 @@ for x from 1 to number_of_files
      object_name$ = selected$ ("Sound")
 
 ##object_name$ = selected$ ("Sound")
-To TextGrid... 1 
+To TextGrid... 'tiername$' 
 select Sound 'object_name$'
 plus TextGrid 'object_name$'
 Edit
