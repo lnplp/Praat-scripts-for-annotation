@@ -1,13 +1,29 @@
-
+#####################################################################################
+##
 ##  This script opens all the sound files in a given directory, plus their associated 
 ##  textgrids, and adds an additional interval tier to the textgrid. It's probably
-##  unnecessarily complex, but it does the job. -- Leendert Plug, February 2009
+##  unnecessarily complex, but it does the job. 
+##
+##  If you want to insert a point tier instead, change 'interval' to 'point' in
+##       Insert interval tier... tiernumber 'tiername$'
+##  
+##  Leendert Plug, last edited July 2018
+##
+#####################################################################################
 
-directory$ = "C:\Documents and Settings\Leendert Plug\Desktop\Dutch r\Data\Speaker B\"
-extension$ = ".wav"
+form Directory and sound file extension
+   comment Specify the directory the script should run on by replacing '...' by the full path. Keep the final slash. 
+   sentence Directory ...\
+   comment Edit the file extension if your sound files are not .wav.
+   sentence Extension .wav
+   comment Specify the number of the tier you want to insert
+   positive Tiernumber 2
+   comment Specify the name of the tier you want to insert
+   sentence Tiername segments
+endform
 
 ##  The next bit goes through all the files. It's probably unnecessary to loop through the 
-##  sound files as well as the textgrids, but it produces the right result in the end.
+##  sound files as well as the textgrids, but it produces the right result.
 
 Create Strings as file list... list 'directory$'*'extension$'
 number_of_files = Get number of strings
@@ -23,10 +39,12 @@ for x from 1 to number_of_files
      
 ##  The next bit adds the tier. The crucial thing is to get the Textgrid object
 ##  selected at this point, and not use Edit. The number indicates the position 
-##  of the new tier, the following expression the new tier's name.
+##  of the new tier, the following expression the new tier's name. If you want 
+##  to insert a point tier instead of an interval tier, simply replace 'interval'
+##  by 'point' after 'Insert'.
 
      select TextGrid 'grid$'
-     Insert interval tier... 2 new
+     Insert interval tier... tiernumber 'tiername$'
 
 ##  The last bit cleans everything up and saves the new textgrid.
 
