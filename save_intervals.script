@@ -9,13 +9,13 @@
 ###
 #########################################################################################################
 
-form Input directory name with final slash
+form Input directory name (without final slash)
     comment Enter parent directory where sound file is kept:
-    sentence soundDir \
+    sentence soundDir ...
 	comment Enter basename of soundfile (without .wav extension)
     sentence baseFile 
     comment Enter directory to which created sound files should be saved:
-    sentence outDir \
+    sentence outDir ...
     comment Specify tier name:
     sentence tierName words
     comment Specify length of left and right buffer (in seconds):
@@ -66,10 +66,9 @@ for ifile to numberOfFiles
            ## Re-select TextGrid
           select TextGrid 'baseFile$'
 
-         endif
-	
+            endif
+	endif
     endfor
-
 endfor
 
 # Complete object cleanup
