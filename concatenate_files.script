@@ -13,12 +13,12 @@
 ##########################################################################
 
 form Files
-	comment Copy the name of the directory that contains your sound files before the slash
-	sentence InputDir \
+	comment Enter the pathway for the directory that contains your sound files, with final slash
+	sentence InputDir ...\
 	comment Specify the silence duration you want between the concatenated files 
 	positive silenceDur 0.5
-        comment  Specify the directory again to create a subdirectory called 'paired' (or something else)
-	sentence OutputDir \paired
+        comment  Specify a full pathway to create a directory to hold the paired files
+	sentence OutputDir ...\paired
 endform
 
 createDirectory (outputDir$)
