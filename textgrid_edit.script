@@ -3,9 +3,10 @@
 ## This script goes through a directory and for each sound file finds the
 ## associated textgrid and brings it up for editing. Any changes to the textgrid are saved automatically. 
 ## The script generates a form on which you can enter the directory and sound file extension. 
-## No other settings need editing before running.
+## No other settings need editing before running, but I've indicated how to get the script to do 
+## additional things, liking playing the audio and inserting a tier.
 ##
-## Adapted from one of Mietta Lennes' scripts by Leendert Plug; last edit March 2016.
+## Adapted from one of Mietta Lennes' scripts by Leendert Plug; last edit October 2018.
 ##
 ######################################################################################################
 
@@ -24,8 +25,24 @@ for x from 1 to number_of_files
      current_file$ = Get string... x
      Read from file... 'directory$''current_file$'
      object_name$ = selected$ ("Sound")
+     
+#####################################################
+# Include 'Play' here to play audio before display
+#####################################################
+     
      Read from file... 'directory$''object_name$'.TextGrid
      plus Sound 'object_name$'
+
+####################################################
+# Include the next bit to also add a tier
+####################################################
+#     select all 
+#     grid$ = selected$ ("TextGrid")
+#     select TextGrid 'grid$'
+#     Insert interval tier... 2 'segmental'
+#     plus Sound 'object_name$'
+####################################################
+     
      Edit
      pause  Edit! 
      minus Sound 'object_name$'
